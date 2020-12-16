@@ -495,13 +495,13 @@
 
                                     {% if activeUser.user_role == 2 or activeUser.user_role==3 %}
                                     <a class="btn btn-primary btn-facebook btn-outline"
-                                           style="display: block;white-space: normal;" id="general_report" href="http://0.0.0.0:5900/generalreport/{{activeUser.user_role}}/{{ munid }}.pdf">
+                                           style="display: block;white-space: normal;" id="general_report" href="http://www.ssm.siinsan.gob.gt/generalreport/{{activeUser.user_role}}/{{ munid }}.pdf">
                                             <i class="fa fa-cubes"> </i> Reporte General
                                         </a>
 
                                      {% else %}
                                              <a class="btn btn-primary btn-facebook btn-outline"
-                                           style="display: block;white-space: normal;" id="general_report" href="http://0.0.0.0:5900/generalreport/1/{{ munid }}.pdf">
+                                           style="display: block;white-space: normal;" id="general_report" href="http://www.ssm.siinsan.gob.gt/generalreport/1/{{ munid }}.pdf">
                                             <i class="fa fa-cubes"> </i> Reporte General
                                         </a>
 
@@ -530,7 +530,9 @@
                                                             ">
 
                                                          <h5>Indice SAN {{ dashData.san[0] }}, {{ dashData.san[2] }}</h5>
-                                        <h5>Cobertura en comunidades {{ dashData.coverage }} %</h5>
+														 <h5>Cobertura en comunidades {{ dashData.coverage }}%</h5>
+														
+                                        <h5>Comunidades: {{ dashData.comunidades2|count }} </h5>
                                             <h3 style="margin-top: 0;font-size: x-small;"><i class="fa fa-circle"
                                                                                              style="color: #11c300"> </i>&nbsp;Sin
                                                 Afectación</h3>

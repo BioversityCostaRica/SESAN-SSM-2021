@@ -237,7 +237,7 @@ def getHelpFiles(request):
     data = []
     # files.sort(key=lambda item: (-len(item), item))
 
-    print files
+    print files 
     for f in files:
         ext = os.path.splitext(f)[1]
         fa = ""
@@ -931,8 +931,9 @@ def getDashReportData(self, month, year):
 
             for id_cu in com:
                 data["comunidades2"].append(getPob4Map(id_cu, alertP[0]))
-            data["coverage"] = data["coverage"] + calcDataCoverage(db, ruuid, getMunicId(self.user.munic),
-                                                                   self.user.login)
+            #data["coverage"] = data["coverage"] + calcDataCoverage(db, ruuid, getMunicId(self.user.munic),self.user.login)
+            #data["coverage"] = calcDataCoverage(db, ruuid, getMunicId(self.user.munic),self.user.login / len(data["comunidades2"])
+                data["coverage"] = 30
 
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
              "Noviembre", "Diciembre"]
@@ -1122,9 +1123,10 @@ def calcDataCoverage(db, device_id_3, mun_id, login):
         if_cu2 = mySession.execute(
             "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = '%s') AND (TABLE_NAME = 'maintable_msel_sem_comunidad_totales')" % db).scalar()
         if int(if_cu2) != 0:
-
-            query = "SELECT (100/count(*)) * (select count(sem_comunidad_totales) from %s.maintable_msel_sem_comunidad_totales where device_id_3 ='%s')  FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
-                db, device_id_3, mun_id)
+            query = "SELECT (100*count(*)) FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
+                mun_id)
+            #query = "SELECT (100/count(*)) * (select count(sem_comunidad_totales) from %s.maintable_msel_sem_comunidad_totales where device_id_3 ='%s')  FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
+                #db, device_id_3, mun_id)
             result = mySession.execute(query).scalar()
             if result:
                 return int(result)
@@ -1132,8 +1134,10 @@ def calcDataCoverage(db, device_id_3, mun_id, login):
                 return 0
         else:
             li = db.split("_")
-            query = "SELECT (100/count(*)) * (select count(sem_comunidad_totales) from %s.maintable where surveyid like binary '%s')  FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
-                db, "%" + li[1] + "_" + li[2] + "_" + login + "_%", mun_id)
+            query = "SELECT (100*count(*)) FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
+                mun_id)
+            #query = "SELECT (100/count(*)) * (select count(sem_comunidad_totales) from %s.maintable where surveyid like binary '%s')  FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
+                #db, "%" + li[1] + "_" + li[2] + "_" + login + "_%", mun_id)
 
             result = mySession.execute(query).scalar()
 
@@ -1885,6 +1889,14 @@ def MunicByMont(data):
 
 
 def genReportMaps(self, data, code):
+
+    path = self.request.registry.settings['user.repository'] + "sesan/user/" + self.user.login + "/report_template"
+
+    templatesPath = os.path.dirname(os.path.abspath(__file__))
+
+    if not os.path.exists(path):
+        shutil.copytree(templatesPath + "/report_template", path)
+
     dep_code = getDeptoByMunic(code.replace(".pdf", ""))
 
     field = "COD_MUN"
@@ -1962,6 +1974,12 @@ def genReportMaps(self, data, code):
         figPath = "%s/%s_%s.png" % (path, dep_code, m)
 
         plt.savefig(figPath)
+
+        f = plt.figure()
+        f.clear()
+        plt.clf()
+        plt.close(f)
+
         # print(figPath)
         data["maps"][m] = figPath
 
@@ -2091,7 +2109,7 @@ def getGeneralReport(self, typeR, code, login):
                             data["years"][m_code][y][monthsShort.index(dt2[0])] = cur_data["san"]
 
                 data["dates"][m_code] = dates_a.split(",")
-            data = genReportMaps(self, data, code)
+        data = genReportMaps(self, data, code)
 
     # data={'dates': {2001: ['Jul 2019', 'Oct 2019', 'Ago 2019', 'Sep 2019'], 2002: ['Oct 2019', 'Nov 2019', 'Jun 2019', 'Sep 2019', 'Feb 2019', 'Mar 2019'], 2003: ['Ago 2019', 'Sep 2019'], 2004: ['Oct 2019', 'Ago 2019', 'Sep 2019'], 2005: ['Dic 2019', 'Oct 2019', 'Ago 2019', 'Sep 2019'], 2006: ['Ene 2020', 'Oct 2019', 'Sep 2019', 'Ago 2019', 'Ene 2019'], 2007: ['Ago 2019', 'Abr 2019', 'Oct 2019', 'Jun 2019', 'Sep 2019', 'Jul 2019', 'Feb 2019', 'May 2019', 'Mar 2019', 'Ene 2019'], 2008: ['Ago 2019', 'Oct 2019', 'Jun 2019', 'Sep 2019', 'Jul 2019', 'May 2019'], 2009: ['Ago 2019', 'Oct 2019', 'Nov 2019', 'Jun 2019', 'Sep 2019', 'Jul 2019', 'Feb 2019', 'May 2019', 'Mar 2019', 'Ene 2019'], 2010: ['Sep 2019'], 2011: ['Jul 2019', 'Feb 2019', 'Ago 2019', 'Oct 2019', 'Sep 2019']}, 'munic': 'Chiquimula', 'mes_repor': {2001: '4', 2002: '6', 2003: '2', 2004: '3', 2005: '4', 2006: '5', 2007: '10', 2008: '6', 2009: '10', 2010: '1', 2011: '5'}, 'date': '02/26/2020', 'reg_tot': {2001: 18L, 2002: 68L, 2003: 22L, 2004: 23L, 2005: 52L, 2006: 29L, 2007: 105L, 2008: 67L, 2009: 108L, 2010: 9L, 2011: 54L}, 'municNames': {2001: 'Chiquimula', 2002: 'San Jos\xe9 La Arada', 2003: 'San Juan Ermita', 2004: 'Jocot\xe1n', 2005: 'Camot\xe1n', 2006: 'Olopa', 2007: 'Esquipulas', 2008: 'Concepci\xf3n Las Minas', 2009: 'Quezaltepeque', 2010: 'San Jacinto', 2011: 'Ipala'}, 'years': {2001: {'2019': ['', '', '', '', '', '', ['67.00', '#ff9936', 'Afectacion alta'], ['51.44', '#ff9936', 'Afectacion alta'], ['76.33', '#ff9936', 'Afectacion alta'], ['88.37', '#ff1313', 'Afectacion muy alta'], '', '']}, 2002: {'2019': ['', ['71.94', '#ff9936', 'Afectacion alta'], ['78.63', '#ff1313', 'Afectacion muy alta'], '', '', ['44.98', '#ff9936', 'Afectacion alta'], '', '', ['71.94', '#ff9936', 'Afectacion alta'], ['100.00', '#ff1313', 'Afectacion muy alta'], ['86.18', '#ff1313', 'Afectacion muy alta'], '']}, 2003: {'2019': ['', '', '', '', '', '', '', ['71.94', '#ff9936', 'Afectacion alta'], ['71.94', '#ff9936', 'Afectacion alta'], '', '', '']}, 2004: {'2019': ['', '', '', '', '', '', '', ['64.67', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], ['100.00', '#ff1313', 'Afectacion muy alta'], '', '']}, 2005: {'2019': ['', '', '', '', '', '', '', ['62.51', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], ['54.99', '#ff9936', 'Afectacion alta'], '', ['62.51', '#ff9936', 'Afectacion alta']]}, 2006: {'2020': [['67.00', '#ff9936', 'Afectacion alta'], '', '', '', '', '', '', '', '', '', '', ''], '2019': [['78.63', '#ff1313', 'Afectacion muy alta'], '', '', '', '', '', '', ['62.51', '#ff9936', 'Afectacion alta'], ['50.85', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], '', '']}, 2007: {'2019': [['62.51', '#ff9936', 'Afectacion alta'], ['54.99', '#ff9936', 'Afectacion alta'], ['47.24', '#ff9936', 'Afectacion alta'], ['40.75', '#ff9936', 'Afectacion alta'], ['48.27', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], ['54.99', '#ff9936', 'Afectacion alta'], ['54.99', '#ff9936', 'Afectacion alta'], '', '']}, 2008: {'2019': ['', '', '', '', ['40.75', '#ff9936', 'Afectacion alta'], ['54.99', '#ff9936', 'Afectacion alta'], ['29.09', '#ffe132', 'Afectacion moderada'], ['54.99', '#ff9936', 'Afectacion alta'], ['29.09', '#ffe132', 'Afectacion moderada'], ['29.09', '#ffe132', 'Afectacion moderada'], '', '']}, 2009: {'2019': [['50.85', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], ['50.85', '#ff9936', 'Afectacion alta'], '', ['40.75', '#ff9936', 'Afectacion alta'], ['54.99', '#ff9936', 'Afectacion alta'], ['40.75', '#ff9936', 'Afectacion alta'], ['48.27', '#ff9936', 'Afectacion alta'], ['36.61', '#ffe132', 'Afectacion moderada'], ['62.51', '#ff9936', 'Afectacion alta'], ['36.61', '#ffe132', 'Afectacion moderada'], '']}, 2010: {'2019': ['', '', '', '', '', '', '', '', ['50.85', '#ff9936', 'Afectacion alta'], '', '', '']}, 2011: {'2019': ['', ['68.81', '#ff9936', 'Afectacion alta'], '', '', '', '', ['100.00', '#ff1313', 'Afectacion muy alta'], ['100.00', '#ff1313', 'Afectacion muy alta'], ['74.52', '#ff9936', 'Afectacion alta'], ['62.51', '#ff9936', 'Afectacion alta'], '', '']}}, 'per_p': {2001: {'Ago 2019': {1: [], 2: ['4.55', 'Sin Afectaci\xf3N', '#11c300'], 3: ['58.93', 'Afectaci\xf3N Alta', '#ff9936']}, 'Jul 2019': {1: ['62.21', 'Afectaci\xf3N Alta', '#ff9936'], 2: [], 3: []}, 'Sep 2019': {1: ['77.00', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['9.25', 'Sin Afectaci\xf3N', '#11c300'], 3: ['84.48', 'Afectaci\xf3N Muy Alta', '#ff1313']}, 'Oct 2019': {1: ['57.10', 'Afectaci\xf3N Alta', '#ff9936'], 2: [], 3: ['68.49', 'Afectaci\xf3N Alta', '#ff9936']}}, 2002: {'Sep 2019': {1: ['87.22', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['84.60', 'Afectaci\xf3N Muy Alta', '#ff1313'], 3: ['30.95', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Jun 2019': {1: ['50.05', 'Afectaci\xf3N Alta', '#ff9936'], 2: [], 3: ['12.62', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Oct 2019': {1: [], 2: ['79.65', 'Afectaci\xf3N Alta', '#ff9936'], 3: []}, 'Feb 2019': {1: ['92.86', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['74.59', 'Afectaci\xf3N Alta', '#ff9936'], 3: ['30.95', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Nov 2019': {1: ['92.86', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['93.21', 'Afectaci\xf3N Muy Alta', '#ff1313'], 3: ['34.02', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Mar 2019': {1: ['97.05', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: [], 3: ['36.79', 'Afectaci\xf3N Moderada', '#ffe132']}}, 2003: {'Ago 2019': {1: ['82.73', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['88.70', 'Afectaci\xf3N Muy Alta', '#ff1313'], 3: ['16.84', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Sep 2019': {1: ['69.53', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['87.56', 'Afectaci\xf3N Muy Alta', '#ff1313'], 3: ['29.50', 'Afectaci\xf3N Moderada', '#ffe132']}}, 2004: {'Ago 2019': {1: ['94.19', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['76.04', 'Afectaci\xf3N Muy Alta', '#ff1313']}, 'Sep 2019': {1: ['84.35', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['0.37', 'Sin Afectaci\xf3N', '#11c300'], 3: ['65.98', 'Afectaci\xf3N Alta', '#ff9936']}, 'Oct 2019': {1: ['71.59', 'Afectaci\xf3N Alta', '#ff9936'], 2: [], 3: ['73.25', 'Afectaci\xf3N Alta', '#ff9936']}}, 2005: {'Ago 2019': {1: ['91.48', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['9.41', 'Sin Afectaci\xf3N', '#11c300'], 3: ['52.07', 'Afectaci\xf3N Alta', '#ff9936']}, 'Dic 2019': {1: ['73.08', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['6.79', 'Sin Afectaci\xf3N', '#11c300'], 3: ['49.28', 'Afectaci\xf3N Alta', '#ff9936']}, 'Sep 2019': {1: ['82.90', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['1.87', 'Sin Afectaci\xf3N', '#11c300'], 3: ['52.07', 'Afectaci\xf3N Alta', '#ff9936']}, 'Oct 2019': {1: ['65.69', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['11.67', 'Sin Afectaci\xf3N', '#11c300'], 3: ['52.07', 'Afectaci\xf3N Alta', '#ff9936']}}, 2006: {'Ago 2019': {1: ['80.13', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['1.50', 'Sin Afectaci\xf3N', '#11c300'], 3: ['59.34', 'Afectaci\xf3N Alta', '#ff9936']}, 'Ene 2020': {1: ['59.18', 'Afectaci\xf3N Alta', '#ff9936'], 2: [], 3: ['60.05', 'Afectaci\xf3N Alta', '#ff9936']}, 'Sep 2019': {1: ['81.62', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['47.35', 'Afectaci\xf3N Alta', '#ff9936']}, 'Oct 2019': {1: ['92.70', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['1.50', 'Sin Afectaci\xf3N', '#11c300'], 3: ['60.05', 'Afectaci\xf3N Alta', '#ff9936']}, 'Ene 2019': {1: ['97.05', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: [], 3: ['59.34', 'Afectaci\xf3N Alta', '#ff9936']}}, 2007: {'Ago 2019': {1: ['74.14', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['9.40', 'Sin Afectaci\xf3N', '#11c300'], 3: ['46.96', 'Afectaci\xf3N Alta', '#ff9936']}, 'Sep 2019': {1: ['60.14', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['6.78', 'Sin Afectaci\xf3N', '#11c300'], 3: ['57.52', 'Afectaci\xf3N Alta', '#ff9936']}, 'Jun 2019': {1: ['67.54', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['5.65', 'Sin Afectaci\xf3N', '#11c300'], 3: ['42.92', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Oct 2019': {1: ['38.26', 'Afectaci\xf3N Moderada', '#ffe132'], 2: ['4.91', 'Sin Afectaci\xf3N', '#11c300'], 3: ['41.53', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Abr 2019': {1: ['57.73', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['5.65', 'Sin Afectaci\xf3N', '#11c300'], 3: ['26.73', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Mar 2019': {1: ['23.37', 'Afectaci\xf3N Moderada', '#ffe132'], 2: ['5.65', 'Sin Afectaci\xf3N', '#11c300'], 3: ['56.57', 'Afectaci\xf3N Alta', '#ff9936']}, 'May 2019': {1: ['71.89', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['5.65', 'Sin Afectaci\xf3N', '#11c300'], 3: ['28.80', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Jul 2019': {1: ['77.63', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['1.87', 'Sin Afectaci\xf3N', '#11c300'], 3: ['43.61', 'Afectaci\xf3N Alta', '#ff9936']}, 'Feb 2019': {1: ['57.73', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['5.65', 'Sin Afectaci\xf3N', '#11c300'], 3: ['60.31', 'Afectaci\xf3N Alta', '#ff9936']}, 'Ene 2019': {1: ['77.56', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['3.79', 'Sin Afectaci\xf3N', '#11c300'], 3: ['58.91', 'Afectaci\xf3N Alta', '#ff9936']}}, 2008: {'Ago 2019': {1: ['57.10', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['1.87', 'Sin Afectaci\xf3N', '#11c300'], 3: ['33.73', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Sep 2019': {1: ['60.63', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['25.98', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Jun 2019': {1: ['61.46', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['3.79', 'Sin Afectaci\xf3N', '#11c300'], 3: ['33.73', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Oct 2019': {1: ['66.27', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['21.80', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Jul 2019': {1: ['57.10', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['25.98', 'Afectaci\xf3N Moderada', '#ffe132']}, 'May 2019': {1: ['65.48', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['2.24', 'Sin Afectaci\xf3N', '#11c300'], 3: ['26.01', 'Afectaci\xf3N Moderada', '#ffe132']}}, 2009: {'Ago 2019': {1: ['68.41', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.37', 'Sin Afectaci\xf3N', '#11c300'], 3: ['24.54', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Sep 2019': {1: ['80.20', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['24.54', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Jun 2019': {1: ['57.10', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.37', 'Sin Afectaci\xf3N', '#11c300'], 3: ['37.25', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Oct 2019': {1: ['73.98', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['1.13', 'Sin Afectaci\xf3N', '#11c300'], 3: ['41.01', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Mar 2019': {1: ['95.77', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['49.29', 'Afectaci\xf3N Alta', '#ff9936']}, 'May 2019': {1: ['57.10', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.37', 'Sin Afectaci\xf3N', '#11c300'], 3: ['26.77', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Jul 2019': {1: ['61.46', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.37', 'Sin Afectaci\xf3N', '#11c300'], 3: ['28.85', 'Afectaci\xf3N Moderada', '#ffe132']}, 'Feb 2019': {1: ['98.55', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['1.13', 'Sin Afectaci\xf3N', '#11c300'], 3: ['52.35', 'Afectaci\xf3N Alta', '#ff9936']}, 'Ene 2019': {1: ['98.55', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['50.27', 'Afectaci\xf3N Alta', '#ff9936']}, 'Nov 2019': {1: ['68.41', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['30.95', 'Afectaci\xf3N Moderada', '#ffe132']}}, 2010: {'Sep 2019': {1: ['91.58', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['0.00', 'Sin Afectaci\xf3N', '#11c300'], 3: ['43.83', 'Afectaci\xf3N Alta', '#ff9936']}}, 2011: {'Ago 2019': {1: ['90.34', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['87.93', 'Afectaci\xf3N Muy Alta', '#ff1313'], 3: ['68.49', 'Afectaci\xf3N Alta', '#ff9936']}, 'Jul 2019': {1: ['87.22', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: [], 3: ['68.49', 'Afectaci\xf3N Alta', '#ff9936']}, 'Sep 2019': {1: ['91.41', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['39.19', 'Afectaci\xf3N Moderada', '#ffe132'], 3: ['65.72', 'Afectaci\xf3N Alta', '#ff9936']}, 'Feb 2019': {1: ['61.46', 'Afectaci\xf3N Alta', '#ff9936'], 2: ['17.05', 'Afectaci\xf3N Moderada', '#ffe132'], 3: ['68.49', 'Afectaci\xf3N Alta', '#ff9936']}, 'Oct 2019': {1: ['86.80', 'Afectaci\xf3N Muy Alta', '#ff1313'], 2: ['6.41', 'Sin Afectaci\xf3N', '#11c300'], 3: ['64.27', 'Afectaci\xf3N Alta', '#ff9936']}}}, 'typeR': '2'}
 

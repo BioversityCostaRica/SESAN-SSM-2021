@@ -58,7 +58,6 @@ Shapely==1.7.0
 shutilwhich==1.1.0
 six==1.11.0
 SQLAlchemy==1.2.12
--e git+https://github.com/BioversityCostaRica/SesanV1.git@e974c3711ef11d80b463eb85ca454cf9add8ecc7#egg=ss_sesan
 subprocess32==3.5.4
 traceback2==1.4.0
 transaction==2.2.1
