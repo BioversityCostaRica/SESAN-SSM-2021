@@ -1,0 +1,8 @@
+build/lib.linux-x86_64-2.7/ss_sesan/*
+build/*
+build/*.pyc
+*.pyc
+dist/*
+
+**/ss_sesan/*.pyc
+development.ini
