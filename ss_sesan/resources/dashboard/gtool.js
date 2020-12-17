@@ -20,9 +20,13 @@ $(document).ready(function () {
 
 
     $("#if_munic").val( $('#dset3').val());
-    console.log($('#dset3').val());
     $("#dset3").on('change', function (e) {
         $("#if_munic").val( $('#dset3').val());
+    });
+
+
+    $("#munic_list").on('change', function (e) {
+        $("#if_munic").val( $('#munic_list').val());
     });
 
 
@@ -52,7 +56,8 @@ $(document).ready(function () {
             for (i = 0; i < json.var.length; i++) {
                 var option = new Option(json.var[i][1], json.var[i][0]);
                 $('#dset2').append($(option));
-
+ecno1976
+                
             }
         }
 

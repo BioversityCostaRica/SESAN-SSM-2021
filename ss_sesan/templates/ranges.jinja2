@@ -106,7 +106,6 @@
                                         </button>
 
 
-
                                         <input type="hidden" value="{{ fill_reg.sel }}" id="id_mun_sel">
                                     </form>
                                 </div>
@@ -149,9 +148,9 @@
                             <input type="hidden" value="{{ varsR_id }}" id="varsR_id">
                             {% if range | length != 0 %}
                                 <button type="button" name="saveall" id="saveall"
-                                                class="btn btn-primary btn-sm"><i
-                                                class="fa fa-save"></i> Actualizar Datos
-                                        </button>
+                                        class="btn btn-primary btn-sm"><i
+                                        class="fa fa-save"></i> Actualizar Datos
+                                </button>
                                 <br>
 
                                 <div class="row">
@@ -162,7 +161,23 @@
                                                 <tr>
 
                                                     <th>Variable</th>
-                                                    <th>Rango</th>
+                                                    {#                                                    <th>Rango</th>#}
+
+                                                    <th colspan="2" style="background-color:#11c300; color: black">Sin
+                                                        afectación
+                                                    </th>
+
+                                                    <th colspan="2" style="background-color:#ffe132; color: black">
+                                                        Afectación Moderada
+                                                    </th>
+
+                                                    <th colspan="2" style="background-color:#ff9936; color: black">
+                                                        Afectación Alta
+                                                    </th>
+
+                                                    <th colspan="2" style="background-color:#ff1313; color: black">
+                                                        Afectación Muy Alta
+                                                    </th>
 
                                                 </tr>
                                                 </thead>
@@ -172,7 +187,7 @@
                                                     <tr>
 
                                                         <td>{{ row[1].decode('latin-1') }}</td>
-                                                        <td>
+                                                        {#<td>
                                                             <!--this-is-the-slider.------->
 
                                                             <input type="hidden" value="{{ row[2][0] }}"
@@ -186,6 +201,8 @@
                                                                    id="lv2_{{ row[0] }}">
                                                             <input type="hidden" value="{{ row[2][5] }}"
                                                                    id="lv3_{{ row[0] }}">
+
+
 
 
                                                             <div class="col-sm-8 form-control input-sm sliderR"
@@ -227,17 +244,64 @@
                                                                 <input name="saveRange" id="saveRange" type="hidden"
                                                                        value="">
 
-                                                                {#<button type="submit"
+                                                                #}{#<button type="submit"
                                                                         class="btn btn-primary btn-circle btn-xs"
                                                                         name="saveRange" id="saveRange"><i
                                                                         class="fa fa-save"></i>
-                                                                </button>#}
+                                                                </button>#}{#
 
                                                             </form>
 
 
                                                             <!------------------>
-                                                        </td>
+                                                        </td>#}
+                                                        <form method="POST" role="form"
+                                                              class="form-horizontal m-t submitR"
+                                                              action="{{ request.path }}"
+                                                              id="submitrange_{{ row[0] }}">
+
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_0"
+                                                                       id="val_{{ row[0] }}_0" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][0] }}"></td>
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_1"
+                                                                       id="val_{{ row[0] }}_1" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][1] }}"></td>
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_2"
+                                                                       id="val_{{ row[0] }}_2" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][2] }}"></td>
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_3"
+                                                                       id="val_{{ row[0] }}_3" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][3] }}"></td>
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_4"
+                                                                       id="val_{{ row[0] }}_4" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][4] }}"></td>
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_5"
+                                                                       id="val_{{ row[0] }}_5" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][5] }}"></td>
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_6"
+                                                                       id="val_{{ row[0] }}_6" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][6] }}"></td>
+                                                            <td><input class="valid_data" required name="val_{{ row[0] }}_7"
+                                                                       id="val_{{ row[0] }}_7" type="number" step="0.001"
+                                                                       style="width: 100%" value="{{ row[2][7] }}"></td>
+
+
+                                                            <input name="mun_ran_{{ row[0] }}"
+                                                                   id="mun_ran_{{ row[0] }}" type="hidden" value="">
+
+                                                            <input name="saveRange" id="saveRange" type="hidden"
+                                                                   value="">
+
+                                                            <input name="var_id" id="var_id" type="hidden"
+                                                                   value="{{ row[0] }}">
+                                                            <input name="mun_id" id="mun_id" type="hidden"
+                                                                   value="{{ fill_reg.sel }}">
+                                                            <input name="dep_id" id="dep_id" type="hidden"
+                                                                   value="{{ fill_reg.s_depto }}">
+
+
+                                                        </form>
+
 
                                                     </tr>
 
