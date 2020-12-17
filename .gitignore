@@ -6,3 +6,4 @@ dist/*
 
 **/ss_sesan/*.pyc
 development.ini
+ss_sesan.egg-info/
