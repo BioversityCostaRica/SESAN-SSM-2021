@@ -20,7 +20,7 @@ class CentrosUrbano(Base):
     __tablename__ = 'centros_urbanos'
 
     id_cu = Column(Integer, primary_key=True)
-    munic_id = Column(Integer)
+    munic_id = Column(Integer, ForeignKey('Munic.munic_id'))
     categoria = Column(String(45))
     cu_name = Column(String(45))
     pob_tot = Column(Integer)
@@ -35,7 +35,7 @@ class CoefPond(Base):
 
     idcoef_pond = Column(Integer, primary_key=True)
     id_variables_ind = Column(Integer)
-    munic_id = Column(Integer)
+    munic_id = Column(Integer, ForeignKey('Munic.munic_id'))
     coef_valor = Column(Float(asdecimal=True))
 
 
@@ -92,7 +92,7 @@ class LineasBase(Base):
 
     uid = Column(Integer, primary_key=True)
     id_variables_ind = Column(Integer)
-    munic_id = Column(Integer)
+    munic_id = Column(Integer, ForeignKey('Munic.munic_id'))
     lb_valor = Column(Float(asdecimal=True))
 
 
@@ -111,7 +111,7 @@ class MailList(Base):
     __tablename__ = 'mail_list'
 
     idmail_list = Column(Integer, primary_key=True)
-    munic_id = Column(Integer)
+    munic_id = Column(Integer, ForeignKey('Munic.munic_id'))
     mail = Column(String(45))
     mail_name = Column(String(45))
 
@@ -121,7 +121,7 @@ class Munic(Base):
 
     munic_id = Column(Integer, primary_key=True)
     munic_nombre = Column(String(45))
-    cod_depto = Column(Integer)
+    cod_depto = Column(Integer,ForeignKey('Departamento.cod_depto'))
 
 
 class Pilare(Base):
