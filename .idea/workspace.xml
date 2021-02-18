@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e854dd02-1a11-4d61-8d2f-eebb1bb83e49" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e854dd02-1a11-4d61-8d2f-eebb1bb83e49" name="Default" comment="Cambios en la IP, arreglo de sintaxis en login y arreglo de otras variables">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ss_sesan/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ss_sesan/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ss_sesan/processes/get_vals.py" beforeDir="false" afterPath="$PROJECT_DIR$/ss_sesan/processes/get_vals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ss_sesan/resources/dashboard/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/ss_sesan/resources/dashboard/dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ss_sesan/templates/login.jinja2" beforeDir="false" afterPath="$PROJECT_DIR$/ss_sesan/templates/login.jinja2" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -690,6 +686,14 @@
       <option name="presentableId" value="Default" />
       <updated>1516293411906</updated>
     </task>
+    <task id="LOCAL-00001" summary="Cambios en la IP, arreglo de sintaxis en login y arreglo de otras variables">
+      <created>1613668555421</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1613668555421</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -741,8 +745,23 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Cambios en la IP, arreglo de sintaxis en login y arreglo de otras variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambios en la IP, arreglo de sintaxis en login y arreglo de otras variables" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
