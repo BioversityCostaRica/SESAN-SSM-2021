@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e854dd02-1a11-4d61-8d2f-eebb1bb83e49" name="Default" comment="Removal of FK">
+    <list default="true" id="e854dd02-1a11-4d61-8d2f-eebb1bb83e49" name="Default" comment="Change in coverage">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ss_sesan/processes/get_vals.py" beforeDir="false" afterPath="$PROJECT_DIR$/ss_sesan/processes/get_vals.py" afterDir="false" />
     </list>
@@ -700,7 +700,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613672821579</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Change in coverage">
+      <created>1613677496706</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1613677496706</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -762,6 +769,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -769,7 +777,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Cambios en la IP, arreglo de sintaxis en login y arreglo de otras variables" />
     <MESSAGE value="Removal of FK" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removal of FK" />
+    <MESSAGE value="Change in coverage" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change in coverage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
