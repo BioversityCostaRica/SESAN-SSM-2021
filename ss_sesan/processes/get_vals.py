@@ -1122,7 +1122,7 @@ def calcDataCoverage(db, device_id_3, mun_id, login):
         if_cu2 = mySession.execute(
             "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = '%s') AND (TABLE_NAME = 'maintable_msel_sem_comunidad_totales')" % db).scalar()
         if int(if_cu2) != 0:
-            query = "SELECT (100*count(*)) FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
+            query = "SELECT (count(*)/100) FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
                 mun_id)
             #query = "SELECT (100/count(*)) * (select count(sem_comunidad_totales) from %s.maintable_msel_sem_comunidad_totales where device_id_3 ='%s')  FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
                 #db, device_id_3, mun_id)
