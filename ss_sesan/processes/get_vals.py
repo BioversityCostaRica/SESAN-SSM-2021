@@ -1133,7 +1133,7 @@ def calcDataCoverage(db, device_id_3, mun_id, login):
                 return 0
         else:
             li = db.split("_")
-            query = "SELECT (100*count(*)) FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
+            query = "SELECT (count(*)/100) FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
                 mun_id)
             #query = "SELECT (100/count(*)) * (select count(sem_comunidad_totales) from %s.maintable where surveyid like binary '%s')  FROM sesan_v2.centros_urbanos where munic_id=%s;" % (
                 #db, "%" + li[1] + "_" + li[2] + "_" + login + "_%", mun_id)
