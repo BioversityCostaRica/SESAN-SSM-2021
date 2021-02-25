@@ -1141,9 +1141,9 @@ def calcDataCoverage(db, device_id_3, mun_id, login):
             result = mySession.execute(query).scalar()
 
             if result:
-                return int(result)
+                return float(result)
             else:
-                return 0
+                return 2
 
     return 0
 
