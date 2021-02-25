@@ -932,7 +932,7 @@ def getDashReportData(self, month, year):
             for id_cu in com:
                 data["comunidades2"].append(getPob4Map(id_cu, alertP[0]))
             #data["coverage"] = data["coverage"] + calcDataCoverage(db, ruuid, getMunicId(self.user.munic),self.user.login) len(data["comunidades2"])
-            data["coverage"] =  float(data["comunidades2"]) * calcDataCoverage(db, ruuid, getMunicId(self.user.munic),self.user.login)
+            data["coverage"] =  float(len(data["comunidades2"])) * calcDataCoverage(db, ruuid, getMunicId(self.user.munic),self.user.login)
 
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
              "Noviembre", "Diciembre"]
