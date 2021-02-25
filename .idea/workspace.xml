@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e854dd02-1a11-4d61-8d2f-eebb1bb83e49" name="Default" comment="Change in coverage">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ss_sesan/processes/get_vals.py" beforeDir="false" afterPath="$PROJECT_DIR$/ss_sesan/processes/get_vals.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -770,7 +769,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614268110346</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Change in coverage">
+      <created>1614268292036</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1614268292036</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
