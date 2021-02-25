@@ -354,7 +354,7 @@ def make_qr(repo, login, passw, uname):
         # s.connect(("8.8.8.8", 80))
         # ip = s.getsockname()[0]
 
-        ip = "190.111.0.168"
+        ip = "45.5.116.232"
 
         """
         config_data = {u'admin': {}, u'general': {u'username': uname, u'password': passw,
